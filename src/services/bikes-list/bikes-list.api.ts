@@ -1,5 +1,5 @@
 import axios from "axios";
-import BaseAPI from "services/base/base.api";
+import BaseAPI from "../base/base.api";
 
 class BikesListAPI extends BaseAPI {
   getBikes() {

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import bikesListAPI from "services/bikes-list/bikes-list.api";
-import { RootState } from "app/store/store";
+import bikesListAPI from "../../../services/bikes-list/bikes-list.api";
+import { RootState } from "../../../app/store/store";
 import { Bike } from "../models/bike.model";
 
 export interface BikesListState {

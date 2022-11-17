@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import bikesList from "features/bikes-list/slices/bikes-list.slice";
+import bikesList from "../../features/bikes-list/slices/bikes-list.slice";
 
 export const store = configureStore({
   reducer: { bikesList },
