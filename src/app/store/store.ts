@@ -3,6 +3,10 @@ import bikesList from "../../features/bikes-list/slices/bikes-list.slice";
 
 export const store = configureStore({
   reducer: { bikesList },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
