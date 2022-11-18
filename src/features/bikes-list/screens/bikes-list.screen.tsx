@@ -1,41 +1,41 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FlatList, View } from "react-native";
-import { Text } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
-import { AppDispatch } from "../../../app/store/store";
-import { Container } from "../../../components/Container/container.component";
+import { Container } from "../../../common/components/Container/container.component";
+import { Loading } from "../../../common/components/Loading/loading.component";
+// import { Spacer } from "../../../common/components/Spacer/spacer.component";
 import { BikeCard } from "../components/BikeCard/bike-card.component";
-import { getBikes, selectBikesList } from "../slices/bikes-list.slice";
+// import { BikeFilter } from "../components/BikeFilter/bike-filter.component";
+import useBikesList from "../hooks/useBikesList";
 
 const CardWrapper = styled(View)`
-  margin-top: 14px;
   margin-bottom: 14px;
 `;
 
 export const BikesListScreen: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const bikes = useSelector(selectBikesList);
-
-  useEffect(() => {
-    dispatch(getBikes());
-  }, [dispatch]);
+  const { data: bikes, isLoading, refetch: getBikes } = useBikesList();
 
   return (
     <Container>
-      {/* <FlatList
-        data={bikes}
-        renderItem={({ item }) => (
-          <CardWrapper>
-            <BikeCard bike={item} />
-          </CardWrapper>
-        )}
-        keyExtractor={(bike) => bike.id.toString()}
-      /> */}
+      {/* <Spacer position="bottom" size="xl">
+        <BikeFilter />
+      </Spacer> */}
 
-      <Text>test</Text>
-
-      <Text>{JSON.stringify(bikes)}</Text>
+      {isLoading && !bikes ? (
+        <Loading size="large" />
+      ) : (
+        <FlatList
+          data={bikes}
+          refreshing={false}
+          renderItem={({ item }) => (
+            <CardWrapper>
+              <BikeCard bike={item} />
+            </CardWrapper>
+          )}
+          keyExtractor={(bike) => bike.id.toString()}
+          onRefresh={getBikes}
+        />
+      )}
     </Container>
   );
 };

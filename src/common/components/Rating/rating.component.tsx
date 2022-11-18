@@ -10,9 +10,9 @@ export const Rating: React.FC<RatingProps> = ({ rate }) => {
     <S.Row>
       {Array.from({ length: 5 }).map((_, i) =>
         i < rate ? (
-          <S.Icon name="star" color="#FDCC0D" size={20} />
+          <S.Icon key={i} name="star" color="#FDCC0D" size={20} />
         ) : (
-          <S.Icon name="star-outline" size={20} />
+          <S.Icon key={i} name="star-outline" size={20} />
         )
       )}
     </S.Row>

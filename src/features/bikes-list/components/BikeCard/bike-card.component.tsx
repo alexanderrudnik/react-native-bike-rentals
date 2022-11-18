@@ -1,7 +1,8 @@
 import React from "react";
 import { Text } from "react-native";
 import { Title, Card, Button } from "react-native-paper";
-import { Rating } from "../../../../components/Rating/rating.component";
+import { Rating } from "../../../../common/components/Rating/rating.component";
+import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { Bike } from "../../models/bike.model";
 import * as S from "./bike-card.styles";
 
@@ -15,14 +16,25 @@ export const BikeCard: React.FC<Props> = ({ bike }) => {
   return (
     <S.Card>
       <Card.Cover source={{ uri: bike.photo }} />
-      <S.Info>
+      <Spacer position="top" size="md">
         <Title>
           {bike.model} ({bike.color})
         </Title>
+      </Spacer>
+
+      <Spacer position="top" size="sm">
         <Text>{bike.location}</Text>
+      </Spacer>
+
+      <Spacer position="top" size="md">
         <Rating rate={bike.rating} />
-        <Button disabled={!isBikeAvailable}>Rent now!</Button>
-      </S.Info>
+      </Spacer>
+
+      <Spacer position="top" size="lg">
+        <Button mode="contained" disabled={!isBikeAvailable}>
+          Rent now
+        </Button>
+      </Spacer>
     </S.Card>
   );
 };
