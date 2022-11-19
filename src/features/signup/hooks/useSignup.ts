@@ -2,9 +2,9 @@ import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useMutation } from "react-query";
 import authAPI from "../../../services/auth/auth.api";
-import { SignupDetails } from "../../../services/auth/auth.types";
+import { AuthDetails } from "../../../services/auth/auth.types";
 
-const signup = async (details: SignupDetails) => {
+const signup = async (details: AuthDetails) => {
   try {
     const response = await authAPI.signup(details);
 

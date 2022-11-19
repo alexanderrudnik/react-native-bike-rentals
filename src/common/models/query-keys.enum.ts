@@ -1,3 +1,4 @@
 export enum QueryKeysEnum {
-  bikes = "bikes",
+  BIKES = "bikes",
+  ACCOUNT = "account",
 }

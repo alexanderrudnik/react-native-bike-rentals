@@ -1,15 +1,15 @@
 import { useQuery } from "react-query";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
-import bikesListAPI from "../../../services/bikes-list/bikes-list.api";
+import bikeList from "../../../services/bikes/bikes.api";
 
 const fetchBikesList = async () => {
-  const response = await bikesListAPI.getBikes();
+  const response = await bikeList.getBikes();
 
   return response.data;
 };
 
 const useBikesList = () => {
-  return useQuery(QueryKeysEnum.bikes, fetchBikesList);
+  return useQuery(QueryKeysEnum.BIKES, fetchBikesList);
 };
 
 export default useBikesList;

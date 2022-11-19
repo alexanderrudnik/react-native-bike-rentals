@@ -1,10 +1,13 @@
-import axios from "axios";
-import BaseAPI from "../base/base.api";
-import { SignupDetails, SignupResponse } from "./auth.types";
+import { axiosInstance } from "../base/base.api";
+import { AuthDetails, AuthResponse } from "./auth.types";
 
-class AuthAPI extends BaseAPI {
-  signup(details: SignupDetails) {
-    return axios.post<SignupResponse>(this.getPath("/register"), details);
+class AuthAPI {
+  signup(details: AuthDetails) {
+    return axiosInstance.post<AuthResponse>("/register", details);
+  }
+
+  login(details: AuthDetails) {
+    return axiosInstance.post<AuthResponse>("/login", details);
   }
 }
 

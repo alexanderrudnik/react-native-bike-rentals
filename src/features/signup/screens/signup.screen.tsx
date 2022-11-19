@@ -31,7 +31,7 @@ const SignupButton = styled(Button)`
   ${(props) => props.disabled && "background-color: 		#909090"};
 `;
 
-type Props = NativeStackScreenProps<AccountStackParamList, "Login">;
+type Props = NativeStackScreenProps<AccountStackParamList, "Signup">;
 
 export const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState("");

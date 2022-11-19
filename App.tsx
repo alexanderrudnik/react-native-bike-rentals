@@ -19,7 +19,7 @@ type RootTabParamList = {
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const TAB_ICON = {
   Bikes: "bicycle",

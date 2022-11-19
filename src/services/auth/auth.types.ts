@@ -1,9 +1,9 @@
-export interface SignupDetails {
+export interface AuthDetails {
   email: string;
   password: string;
 }
 
-export interface SignupResponse {
+export interface AuthResponse {
   accessToken: string;
   user: {
     email: string;
