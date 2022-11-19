@@ -42,10 +42,13 @@ export const BikeCard: React.FC<Props> = ({
 
       <Spacer position="top" size="lg">
         <Button mode="contained" disabled={isDisabled} onPress={onRent}>
-          {!isBikeAvailable && "Not available"}
-          {disabled && "Please log in"}
-          {isRented && "Rented"}
-          {!isDisabled && "Rent now"}
+          {disabled
+            ? "Please log in to rent it"
+            : !isBikeAvailable
+            ? "Not available"
+            : isRented
+            ? "Rented"
+            : "Rent now"}
         </Button>
       </Spacer>
     </S.Card>
