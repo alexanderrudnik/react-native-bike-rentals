@@ -1,4 +1,5 @@
 import React from "react";
+import { ViewProps } from "react-native";
 import styled from "styled-components/native";
 
 interface PositionVariant {
@@ -49,14 +50,23 @@ const SpacerView = styled.View<{ variant: string }>`
   ${({ variant }) => variant}
 `;
 
-interface Props {
+interface Props extends ViewProps {
   position: Position;
   size: Size;
   children: React.ReactNode;
 }
 
-export const Spacer: React.FC<Props> = ({ children, size, position }) => {
+export const Spacer: React.FC<Props> = ({
+  children,
+  size,
+  position,
+  ...props
+}) => {
   const variant = getVariant(position, size);
 
-  return <SpacerView variant={variant}>{children}</SpacerView>;
+  return (
+    <SpacerView variant={variant} {...props}>
+      {children}
+    </SpacerView>
+  );
 };

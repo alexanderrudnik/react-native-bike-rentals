@@ -90,5 +90,22 @@
       "available": true,
       "photo": "https://res.cloudinary.com/lapkinthegod/image/upload/v1668691068/e4c5af700b68e6ce02121281d69fa725_savylx.jpg"
     }
+  ],
+  "users": [
+    {
+      "email": "eleineveber@gmail.com",
+      "password": "$2a$10$wVSIMDKQ.O5j/EzAvibzk.CyCirl/7xishC3QNV1I3Qhi1RcARtqS",
+      "id": 1
+    },
+    {
+      "email": "eleinevebe1r@gmail.com",
+      "password": "$2a$10$XQp6vyNwPGr7NPdiKJeEmejUORIE/4wtZMAHjDLg.yaxUIKCdWC7y",
+      "id": 2
+    },
+    {
+      "email": "123@djsj",
+      "password": "$2a$10$mmMnU55.HOFA7oini7IRKeMt8nheviM3p8nQ14Jx.m/8uNitnJPEa",
+      "id": 3
+    }
   ]
 }

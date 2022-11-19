@@ -1,10 +1,24 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SignupScreen } from "../../signup/screens/signup.screen";
+import { LoginScreen } from "../../login/screens/login.screen";
+
+export type AccountStackParamList = {
+  Signup: undefined;
+  Login: undefined;
+};
+
+const Stack = createNativeStackNavigator<AccountStackParamList>();
 
 export const AccountScreen: React.FC = () => {
   return (
-    <View>
-      <Text>account</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerBackVisible: false }}
+      />
+    </Stack.Navigator>
   );
 };

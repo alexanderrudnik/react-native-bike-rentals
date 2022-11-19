@@ -11,7 +11,13 @@ import { SettingsScreen } from "./src/features/settings/screens/settings.screen"
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
-const Tab = createBottomTabNavigator();
+type RootTabParamList = {
+  Bikes: undefined;
+  Account: undefined;
+  Settings: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const queryClient = new QueryClient();
 
@@ -44,7 +50,11 @@ export default function App() {
         <NavigationContainer>
           <Tab.Navigator screenOptions={getScreenOptions}>
             <Tab.Screen name="Bikes" component={BikesListScreen} />
-            <Tab.Screen name="Account" component={AccountScreen} />
+            <Tab.Screen
+              name="Account"
+              component={AccountScreen}
+              options={{ headerShown: false }}
+            />
             <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>
 
