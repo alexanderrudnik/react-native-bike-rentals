@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, ActivityIndicatorProps } from "react-native-paper";
-import * as S from "./loading.styles";
+import { Center } from "../Center/center.component";
 
 interface Props {
   size: ActivityIndicatorProps["size"];
@@ -8,8 +8,8 @@ interface Props {
 
 export const Loading: React.FC<Props> = () => {
   return (
-    <S.Wrapper>
+    <Center>
       <ActivityIndicator />
-    </S.Wrapper>
+    </Center>
   );
 };

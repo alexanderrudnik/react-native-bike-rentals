@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { QueryKeysEnum } from "../../../common/models/QueryKeysEnum";
+import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import bikesListAPI from "../../../services/bikes-list/bikes-list.api";
 
 const fetchBikesList = async () => {

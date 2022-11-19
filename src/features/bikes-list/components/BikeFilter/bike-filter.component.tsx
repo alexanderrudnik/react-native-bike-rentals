@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { View } from "react-native";
+import { FilterProps } from "../../models/filter.model";
 import { BikeFilterModal } from "../BikeFilterModal/bike-filter-modal.component";
 import * as S from "./bike-filter.styles";
 
-export const BikeFilter: React.FC = () => {
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
+interface Props extends FilterProps {}
 
-  const [filters, setFilters] = useState({
-    models: "",
-    colors: ["red", "black"],
-  });
+export const BikeFilter: React.FC<Props> = ({ filter, setFilter }) => {
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   return (
     <View>
@@ -18,8 +16,10 @@ export const BikeFilter: React.FC = () => {
       </S.FilterButton>
 
       <BikeFilterModal
+        filter={filter}
         visible={isFilterVisible}
         setIsVisible={setIsFilterVisible}
+        setFilter={setFilter}
       />
     </View>
   );

@@ -45,12 +45,18 @@ const getVariant = (position: Position, size: Size) => {
   return `${property}: ${selectedSize};`;
 };
 
+const SpacerView = styled.View<{ variant: string }>`
+  ${({ variant }) => variant}
+`;
+
 interface Props {
   position: Position;
   size: Size;
   children: React.ReactNode;
 }
 
-export const Spacer = styled.View<Props>`
-  ${(props) => getVariant(props.position, props.size)}
-`;
+export const Spacer: React.FC<Props> = ({ children, size, position }) => {
+  const variant = getVariant(position, size);
+
+  return <SpacerView variant={variant}>{children}</SpacerView>;
+};
