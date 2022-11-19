@@ -15,7 +15,7 @@ export type AccountStackParamList = {
 const Stack = createNativeStackNavigator<AccountStackParamList>();
 
 export const AccountScreen: React.FC = () => {
-  const { data: user, isLoading } = useAccount();
+  const { data: account, isLoading } = useAccount();
 
   if (isLoading) {
     return <Loading size="large" />;
@@ -23,7 +23,7 @@ export const AccountScreen: React.FC = () => {
 
   return (
     <Stack.Navigator initialRouteName={"Signup"}>
-      {user ? (
+      {account ? (
         <Stack.Screen
           name="Dashboard"
           component={DashboardScreen}

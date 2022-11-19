@@ -8,10 +8,20 @@ import * as S from "./bike-card.styles";
 
 interface Props {
   bike: Bike;
+  disabled: boolean;
+  isRented: boolean;
+  onRent: () => void;
 }
 
-export const BikeCard: React.FC<Props> = ({ bike }) => {
+export const BikeCard: React.FC<Props> = ({
+  bike,
+  disabled,
+  isRented,
+  onRent,
+}) => {
   const isBikeAvailable = bike.available;
+
+  const isDisabled = !isBikeAvailable || disabled || isRented;
 
   return (
     <S.Card>
@@ -31,8 +41,11 @@ export const BikeCard: React.FC<Props> = ({ bike }) => {
       </Spacer>
 
       <Spacer position="top" size="lg">
-        <Button mode="contained" disabled={!isBikeAvailable}>
-          Rent now
+        <Button mode="contained" disabled={isDisabled} onPress={onRent}>
+          {!isBikeAvailable && "Not available"}
+          {disabled && "Please log in"}
+          {isRented && "Rented"}
+          {!isDisabled && "Rent now"}
         </Button>
       </Spacer>
     </S.Card>

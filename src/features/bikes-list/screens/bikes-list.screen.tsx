@@ -4,11 +4,13 @@ import styled from "styled-components/native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
+import { useAccount } from "../../../common/hooks/useAccount";
 import { BikeCard } from "../components/BikeCard/bike-card.component";
 import { BikeFilter } from "../components/BikeFilter/bike-filter.component";
 import { NoData } from "../components/NoData/no-data.component";
 import { filterInitialState } from "../constants/filter-initial-state";
 import useBikesList from "../hooks/useBikesList";
+import { useRentBike } from "../hooks/useRentBike";
 import { Bike } from "../models/bike.model";
 import { Filter } from "../models/filter.model";
 
@@ -18,6 +20,12 @@ const CardWrapper = styled(View)`
 
 export const BikesListScreen: React.FC = () => {
   const { data: bikes, isLoading, refetch: getBikes } = useBikesList();
+
+  const { data: account } = useAccount();
+
+  console.log(account);
+
+  const { mutateAsync: rentBike } = useRentBike();
 
   const [filter, setFilter] = useState<Filter>(filterInitialState);
 
@@ -79,7 +87,18 @@ export const BikesListScreen: React.FC = () => {
           refreshing={false}
           renderItem={({ item }) => (
             <CardWrapper>
-              <BikeCard bike={item} />
+              <BikeCard
+                bike={item}
+                disabled={!account}
+                isRented={Boolean(
+                  account?.rentedBikes?.find(
+                    (rentedBike) => rentedBike.id === item.id
+                  )
+                )}
+                onRent={() => {
+                  rentBike(item.id);
+                }}
+              />
             </CardWrapper>
           )}
           keyExtractor={(bike) => bike.id.toString()}
