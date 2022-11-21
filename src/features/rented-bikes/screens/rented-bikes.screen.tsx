@@ -27,22 +27,12 @@ export const RentedBikesScreen: React.FC = () => {
 
   const bikesList = bikes || [];
 
-  const sortedRentedBikes = account?.rentedBikes
-    ? account.rentedBikes.sort((a, b) => {
-        if (!a?.dateTo || !b?.dateTo || a.dateFrom < b.dateFrom) {
-          return 1;
-        } else {
-          return -1;
-        }
-      })
-    : [];
-
   return (
     <Container>
       <FlatList
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={NoData}
-        data={sortedRentedBikes}
+        data={account?.rentedBikes || []}
         renderItem={({ item }) => {
           const currentBike = bikesList.find((bike) => bike.id === item.id);
 
