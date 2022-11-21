@@ -6,10 +6,10 @@ interface Props {
   size: ActivityIndicatorProps["size"];
 }
 
-export const Loading: React.FC<Props> = () => {
+export const Loading: React.FC<Props> = ({ ...props }) => {
   return (
     <Center>
-      <ActivityIndicator />
+      <ActivityIndicator {...props} />
     </Center>
   );
 };
