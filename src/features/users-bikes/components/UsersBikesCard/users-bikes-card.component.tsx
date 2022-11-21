@@ -7,36 +7,38 @@ import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { Account } from "../../../../services/account/account.types";
 import { dateService } from "../../../../services/date/date.service";
 import { Bike } from "../../../bikes-list/models/bike.model";
-import * as S from "./bikes-users-card.styles";
+import * as S from "./users-bikes-card.styles";
 
 interface Props {
-  bike: Bike;
-  accounts: Account[];
+  account: Account;
+  bikes: Bike[];
 }
 
-export const BikesUsersCard: React.FC<Props> = ({ bike, accounts }) => {
-  const header = ["Email", "Date from", "Date to"];
-  const data = bike.rented.map((bikeRent) => [
-    accounts.find((account) => account.id === bikeRent.accountID)?.email,
-    dateService.format(bikeRent.dateFrom),
-    bikeRent.dateTo ? dateService.format(bikeRent.dateTo) : "Unlimited",
-  ]);
+export const UsersBikesCard: React.FC<Props> = ({ account, bikes }) => {
+  const header = ["Model", "Date to", "Date from"];
+  const data =
+    account?.rentedBikes &&
+    account.rentedBikes.map((rentedBike) => [
+      bikes.find((bike) => bike.id === rentedBike.id)?.model,
+      dateService.format(rentedBike.dateFrom),
+      rentedBike.dateTo ? dateService.format(rentedBike.dateTo) : "Unlimited",
+    ]);
 
   return (
     <Card>
-      <Spacer position="bottom" size="lg">
+      <Spacer position="bottom" size="md">
         <S.Row>
           <Spacer position="right" size="md">
-            <Text>Model:</Text>
+            <Text>Email:</Text>
           </Spacer>
 
-          <Text>{bike.model}</Text>
+          <Text>{account.email}</Text>
         </S.Row>
       </Spacer>
 
       <View>
         <Spacer position="bottom" size="sm">
-          <Text>Rented by:</Text>
+          <Text>History:</Text>
         </Spacer>
 
         {/* eslint-disable-next-line react-native/no-inline-styles */}
