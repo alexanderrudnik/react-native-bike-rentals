@@ -3,6 +3,7 @@ import { Button, Text } from "react-native-paper";
 import { Card } from "../../../../common/components/Card/card.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { RentedBike } from "../../../../services/bikes/bikes.types";
+import { dateService } from "../../../../services/date/date.service";
 import { Bike } from "../../../bikes-list/models/bike.model";
 import { useCancelBike } from "../../hooks/useCancelBike";
 import * as S from "./rented-bike-card.styles";
@@ -34,7 +35,7 @@ export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
           <Spacer position="right" size="md">
             <Text>Date from:</Text>
           </Spacer>
-          <Text>{new Date(rentDetails.dateFrom).toLocaleString("en-US")}</Text>
+          <Text>{dateService.format(rentDetails.dateFrom)}</Text>
         </S.Row>
       </Spacer>
 
@@ -45,7 +46,7 @@ export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
           </Spacer>
           <Text>
             {rentDetails.dateTo
-              ? new Date(rentDetails.dateTo).toLocaleString("en-US")
+              ? dateService.format(rentDetails.dateTo)
               : "Unlimited"}
           </Text>
         </S.Row>

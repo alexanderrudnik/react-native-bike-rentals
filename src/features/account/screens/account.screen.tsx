@@ -8,6 +8,7 @@ import { Loading } from "../../../common/components/Loading/loading.component";
 import { RentedBikesScreen } from "../../rented-bikes/screens/rented-bikes.screen";
 import { AllUsersScreen } from "../../all-users/screens/all-users.screen";
 import { BikesUsersScreen } from "../../bikes-users/screens/bikes-users.screen";
+import { UsersBikesScreen } from "../../users-bikes/screens/users-bikes.screen";
 
 export type AccountStackParamList = {
   Signup: undefined;
@@ -45,7 +46,7 @@ export const AccountScreen: React.FC = () => {
           />
           <Stack.Screen
             name="Users who reserved a bike"
-            component={BikesUsersScreen}
+            component={UsersBikesScreen}
           />
         </>
       ) : (

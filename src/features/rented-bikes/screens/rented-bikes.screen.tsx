@@ -3,6 +3,7 @@ import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
 import { useAccount } from "../../../common/hooks/useAccount";
+import { dateService } from "../../../services/date/date.service";
 import { NoData } from "../../bikes-list/components/NoData/no-data.component";
 import useBikesList from "../../bikes-list/hooks/useBikesList";
 import { RentedBikeCard } from "../components/RentedBikeCard/rented-bike-card.component";
@@ -13,11 +14,11 @@ export const RentedBikesScreen: React.FC = () => {
   const { data: bikes } = useBikesList();
   const { data: account } = useAccount();
 
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(dateService.getNow());
 
   useEffect(() => {
     id = setInterval(() => {
-      setNow(Date.now());
+      setNow(dateService.getNow());
     }, 1000);
 
     return () => {

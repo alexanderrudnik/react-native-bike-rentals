@@ -6,6 +6,7 @@ import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import accountAPI from "../../../services/account/account.api";
 import bikesAPI from "../../../services/bikes/bikes.api";
 import { RentedBike } from "../../../services/bikes/bikes.types";
+import { dateService } from "../../../services/date/date.service";
 import { Bike, BikeRent } from "../models/bike.model";
 
 const rentBike = async ({
@@ -20,7 +21,7 @@ const rentBike = async ({
 
     let newBikes: RentedBike[] = [];
 
-    const dateFrom = Date.now();
+    const dateFrom = dateService.getNow();
 
     const newAccountBike: RentedBike = {
       id: bike.id,

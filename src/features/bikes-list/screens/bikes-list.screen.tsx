@@ -4,6 +4,7 @@ import { Container } from "../../../common/components/Container/container.compon
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
 import { useAccount } from "../../../common/hooks/useAccount";
+import { dateService } from "../../../services/date/date.service";
 import { BikeCard } from "../components/BikeCard/bike-card.component";
 import { BikeFilter } from "../components/BikeFilter/bike-filter.component";
 import { BikeRentModal } from "../components/BikeRentModal/bike-rent-modal.component";
@@ -22,11 +23,11 @@ export const BikesListScreen: React.FC = () => {
   const [filter, setFilter] = useState<Filter>(filterInitialState);
   const [activeBike, setActiveBike] = useState<Bike | null>(null);
   const [isVisibleRentModal, setIsVisibleRentModal] = useState(false);
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(dateService.getNow());
 
   useEffect(() => {
     id = setInterval(() => {
-      setNow(Date.now());
+      setNow(dateService.getNow());
     }, 1000);
 
     return () => {

@@ -5,6 +5,7 @@ import { queryClient } from "../../../../App";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import accountAPI from "../../../services/account/account.api";
 import bikesAPI from "../../../services/bikes/bikes.api";
+import { dateService } from "../../../services/date/date.service";
 import { Bike } from "../../bikes-list/models/bike.model";
 
 const cancelBike = async ({
@@ -17,7 +18,7 @@ const cancelBike = async ({
   try {
     const { data: account } = await accountAPI.getMe();
 
-    const now = Date.now();
+    const now = dateService.getNow();
 
     if (account?.rentedBikes) {
       const newRentedBikes = account.rentedBikes.map((rentedBike) =>
