@@ -2,9 +2,9 @@ import React from "react";
 import { Text } from "react-native";
 import { Title, Card, Button } from "react-native-paper";
 import { Rating } from "../../../../common/components/Rating/rating.component";
+import { Card as BaseCard } from "../../../../common/components/Card/card.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { Bike } from "../../models/bike.model";
-import * as S from "./bike-card.styles";
 
 interface Props {
   now: number;
@@ -40,7 +40,7 @@ export const BikeCard: React.FC<Props> = ({
   const isDisabled = !isBikeAvailable || disabled || isRentedByMe;
 
   return (
-    <S.Card>
+    <BaseCard>
       <Card.Cover source={{ uri: bike.photo }} />
       <Spacer position="top" size="md">
         <Title>
@@ -67,6 +67,6 @@ export const BikeCard: React.FC<Props> = ({
             : "Rent now"}
         </Button>
       </Spacer>
-    </S.Card>
+    </BaseCard>
   );
 };

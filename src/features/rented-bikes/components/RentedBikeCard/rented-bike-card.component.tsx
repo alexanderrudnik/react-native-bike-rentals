@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Text } from "react-native-paper";
+import { Card } from "../../../../common/components/Card/card.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { RentedBike } from "../../../../services/bikes/bikes.types";
 import { Bike } from "../../../bikes-list/models/bike.model";
@@ -18,7 +19,7 @@ export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
   const { mutateAsync: cancelBike } = useCancelBike();
 
   return (
-    <S.Card>
+    <Card>
       <Spacer position="bottom" size="lg">
         <S.Row>
           <Spacer position="right" size="md">
@@ -58,6 +59,6 @@ export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
           Cancel
         </Button>
       )}
-    </S.Card>
+    </Card>
   );
 };
