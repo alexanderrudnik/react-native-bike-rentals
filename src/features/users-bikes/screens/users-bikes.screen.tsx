@@ -12,6 +12,10 @@ export const UsersBikesScreen: React.FC = () => {
   const { data: accounts, isLoading: isLoadingAccounts } = useAccounts();
   const { data: bikes, isLoading: isLoadingBikes } = useBikesList();
 
+  const accountsWithBikes = accounts
+    ? accounts.filter((acc) => acc.rentedBikes?.length)
+    : [];
+
   return (
     <Container>
       {isLoadingAccounts || isLoadingBikes ? (
@@ -21,7 +25,7 @@ export const UsersBikesScreen: React.FC = () => {
           <FlatList
             ListEmptyComponent={NoData}
             keyExtractor={(item) => item.id.toString()}
-            data={accounts}
+            data={accountsWithBikes}
             renderItem={({ item }) => (
               <Spacer position="bottom" size="lg">
                 <UsersBikesCard bikes={bikes} account={item} />
