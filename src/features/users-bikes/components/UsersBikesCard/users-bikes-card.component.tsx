@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const UsersBikesCard: React.FC<Props> = ({ account, bikes }) => {
-  const header = ["Model", "Date to", "Date from"];
+  const header = ["Model", "Date from", "Date to"];
   const data =
     account?.rentedBikes &&
     account.rentedBikes.map((rentedBike) => [
