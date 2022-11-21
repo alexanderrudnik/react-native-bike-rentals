@@ -21,7 +21,7 @@ class BikesAPI {
   }
 
   cancelBikeRent({ userID, bikes }: BikeDetails) {
-    return axiosInstance.patch<Account>(`users/${userID}`, {
+    return axiosInstance.patch<Account>(`/users/${userID}`, {
       rentedBikes: bikes,
     });
   }
@@ -29,6 +29,12 @@ class BikesAPI {
   setBikeCancelled({ bikeID, data }: SetBikeDetails) {
     return axiosInstance.patch<Bike>(`/bikes/${bikeID}`, {
       rented: data,
+    });
+  }
+
+  rateBike({ userID, bikes }: BikeDetails) {
+    return axiosInstance.patch<Account>(`/users/${userID}`, {
+      rentedBikes: bikes,
     });
   }
 }

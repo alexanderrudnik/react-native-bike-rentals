@@ -9,6 +9,7 @@ export interface RentedBike {
   dateFrom: number;
   dateTo?: number;
   id: number;
+  rated?: number;
 }
 
 export interface SetBikeDetails {

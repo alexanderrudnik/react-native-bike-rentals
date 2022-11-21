@@ -12,9 +12,17 @@ interface Props {
   now: number;
   bike: Bike;
   rentDetails: RentedBike;
+  rated?: number;
+  onRate: () => void;
 }
 
-export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
+export const RentedBikeCard: React.FC<Props> = ({
+  now,
+  bike,
+  rentDetails,
+  rated,
+  onRate,
+}) => {
   const isCancellable = rentDetails.dateTo ? now < rentDetails.dateTo : true;
 
   const { mutateAsync: cancelBike } = useCancelBike();
@@ -39,7 +47,7 @@ export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
         </S.Row>
       </Spacer>
 
-      <Spacer position="bottom" size={isCancellable ? "lg" : "none"}>
+      <Spacer position="bottom" size={"lg"}>
         <S.Row>
           <Spacer position="right" size="md">
             <Text>Date to:</Text>
@@ -58,6 +66,12 @@ export const RentedBikeCard: React.FC<Props> = ({ now, bike, rentDetails }) => {
           onPress={() => cancelBike({ bike, dateFrom: rentDetails.dateFrom })}
         >
           Cancel
+        </Button>
+      )}
+
+      {!rated && !isCancellable && (
+        <Button mode="outlined" onPress={onRate}>
+          Rate this bike!
         </Button>
       )}
     </Card>
