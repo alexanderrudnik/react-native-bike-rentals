@@ -7,8 +7,9 @@ import { StorageKeysEnum } from "../../../common/models/storage-keys.enum";
 import { queryClient } from "../../../../App";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import { Button } from "react-native-paper";
-import { View } from "react-native";
 import { useAccount } from "../../../common/hooks/useAccount";
+import { Spacer } from "../../../common/components/Spacer/spacer.component";
+import { Container } from "../../../common/components/Container/container.component";
 
 type Props = NativeStackScreenProps<AccountStackParamList, "Dashboard">;
 
@@ -21,30 +22,46 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View>
-      <Button mode="text" onPress={() => navigation.navigate("Rented bikes")}>
-        Rented bikes
-      </Button>
+    <Container>
+      <Spacer position="bottom" size="lg">
+        <Button mode="text" onPress={() => navigation.navigate("Rented bikes")}>
+          Rented bikes
+        </Button>
+      </Spacer>
       {account?.role === "admin" && (
         <>
-          <Button mode="text" onPress={() => navigation.navigate("All users")}>
-            All users
-          </Button>
-          <Button
-            mode="text"
-            onPress={() => navigation.navigate("Users who reserved a bike")}
-          >
-            Users, who reserved a bike
-          </Button>
-          <Button
-            mode="text"
-            onPress={() => navigation.navigate("Bikes, reserved by users")}
-          >
-            Bikes, reserved by users
-          </Button>
+          <Spacer position="bottom" size="lg">
+            <Button
+              mode="text"
+              onPress={() => navigation.navigate("All users")}
+            >
+              All users
+            </Button>
+          </Spacer>
+
+          <Spacer position="bottom" size="lg">
+            <Button
+              mode="text"
+              onPress={() => navigation.navigate("Users who reserved a bike")}
+            >
+              Users, who reserved a bike
+            </Button>
+          </Spacer>
+
+          <Spacer position="bottom" size="lg">
+            <Button
+              mode="text"
+              onPress={() => navigation.navigate("Bikes, reserved by users")}
+            >
+              Bikes, reserved by users
+            </Button>
+          </Spacer>
         </>
       )}
-      <Button onPress={logout}>Log out</Button>
-    </View>
+
+      <Button mode="contained" onPress={logout}>
+        Log out
+      </Button>
+    </Container>
   );
 };

@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use(async (config) => {
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.status === 400 || 401) {
+    if (error.status === 401) {
       await AsyncStorage.removeItem(StorageKeysEnum.ACCESS_TOKEN);
       await queryClient.setQueryData(QueryKeysEnum.ACCOUNT, undefined);
 
