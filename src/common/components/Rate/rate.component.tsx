@@ -8,6 +8,8 @@ interface Props {
 }
 
 export const Rate: React.FC<Props> = ({ value, onChange }) => {
+  const handleChange = (i: number) => onChange(i + 1);
+
   return (
     <S.Row>
       {Array.from({ length: 5 }).map((_, i) =>
@@ -16,13 +18,13 @@ export const Rate: React.FC<Props> = ({ value, onChange }) => {
             key={i}
             icon="star"
             color="#FDCC0D"
-            onPress={() => onChange(i + 1)}
+            onPress={() => handleChange(i)}
           />
         ) : (
           <IconButton
             key={i}
             icon="star-outline"
-            onPress={() => onChange(i + 1)}
+            onPress={() => handleChange(i)}
           />
         )
       )}
