@@ -4,6 +4,12 @@ export interface Bike {
   rating: number;
   photo: string;
   location: string;
-  available: boolean;
   model: string;
+  rented: BikeRent[];
+}
+
+export interface BikeRent {
+  accountID: number;
+  dateFrom: number;
+  dateTo?: number;
 }

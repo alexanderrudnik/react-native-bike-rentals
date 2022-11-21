@@ -7,21 +7,37 @@ import { Bike } from "../../models/bike.model";
 import * as S from "./bike-card.styles";
 
 interface Props {
+  now: number;
+  accountID: number | undefined;
   bike: Bike;
   disabled: boolean;
-  isRented: boolean;
   onRent: () => void;
 }
 
 export const BikeCard: React.FC<Props> = ({
+  now,
+  accountID,
   bike,
   disabled,
-  isRented,
   onRent,
 }) => {
-  const isBikeAvailable = bike.available;
+  const isBikeAvailable = bike.rented
+    ? bike.rented.every(
+        (rent) => now < rent.dateFrom || (rent.dateTo && now >= rent.dateTo)
+      )
+    : true;
 
-  const isDisabled = !isBikeAvailable || disabled || isRented;
+  const isRentedByMe = bike.rented
+    ? bike.rented.some(
+        (rent) =>
+          now >= rent.dateFrom &&
+          (rent.dateTo ? now < rent.dateTo : true) &&
+          accountID &&
+          rent.accountID === accountID
+      )
+    : false;
+
+  const isDisabled = !isBikeAvailable || disabled || isRentedByMe;
 
   return (
     <S.Card>
@@ -44,10 +60,10 @@ export const BikeCard: React.FC<Props> = ({
         <Button mode="contained" disabled={isDisabled} onPress={onRent}>
           {disabled
             ? "Please log in to rent it"
+            : isRentedByMe
+            ? "Rented"
             : !isBikeAvailable
             ? "Not available"
-            : isRented
-            ? "Rented"
             : "Rent now"}
         </Button>
       </Spacer>

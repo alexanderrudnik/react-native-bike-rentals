@@ -4,33 +4,64 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../../../App";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import accountAPI from "../../../services/account/account.api";
-import { Account } from "../../../services/account/account.types";
 import bikesAPI from "../../../services/bikes/bikes.api";
 import { RentedBike } from "../../../services/bikes/bikes.types";
+import { Bike, BikeRent } from "../models/bike.model";
 
-const rentBike = async (id: number) => {
+const rentBike = async ({
+  bike,
+  duration,
+}: {
+  bike: Bike;
+  duration: number | string;
+}) => {
   try {
     const { data: account } = await accountAPI.getMe();
 
     let newBikes: RentedBike[] = [];
 
-    const newBike = {
-      id,
-      date: Date.now(),
+    const dateFrom = Date.now();
+
+    const newAccountBike: RentedBike = {
+      id: bike.id,
+      dateFrom: dateFrom,
     };
 
-    if (account?.rentedBikes?.length) {
-      newBikes = [...account.rentedBikes, newBike];
-    } else {
-      newBikes = [newBike];
+    if (typeof duration === "number") {
+      newAccountBike.dateTo = dateFrom + duration;
     }
 
-    const response = await bikesAPI.rentBike({
+    newBikes = account?.rentedBikes?.length
+      ? [...account.rentedBikes, newAccountBike]
+      : [newAccountBike];
+
+    const { data: newAccount } = await bikesAPI.rentBike({
       userID: account.id,
       bikes: newBikes,
     });
 
-    return response.data;
+    const bikeRent: BikeRent = {
+      accountID: account.id,
+      dateFrom,
+    };
+
+    if (typeof duration === "number") {
+      bikeRent.dateTo = dateFrom + duration;
+    }
+
+    const newBikeRent = bike.rented?.length
+      ? [...bike.rented, bikeRent]
+      : [bikeRent];
+
+    const { data: newBike } = await bikesAPI.setBikeRented({
+      bikeID: bike.id,
+      data: newBikeRent,
+    });
+
+    return {
+      newAccount,
+      newBike,
+    };
   } catch (e) {
     const error = e as AxiosError;
     throw error.response?.data || "Something went wrong";
@@ -39,18 +70,13 @@ const rentBike = async (id: number) => {
 
 export const useRentBike = () => {
   return useMutation(rentBike, {
-    onSuccess: (_, id) => {
-      queryClient.setQueryData(QueryKeysEnum.ACCOUNT, (old: Account) => {
-        const newBike = {
-          id,
-          date: Date.now(),
-        };
+    onSuccess: ({ newAccount, newBike }) => {
+      queryClient.setQueryData(QueryKeysEnum.ACCOUNT, () => {
+        return newAccount;
+      });
 
-        if (old.rentedBikes?.length) {
-          return { ...old, rentedBikes: [...old.rentedBikes, newBike] };
-        } else {
-          return { ...old, rentedBikes: [newBike] };
-        }
+      queryClient.setQueryData(QueryKeysEnum.BIKES, (old: Bike[]) => {
+        return old.map((bike) => (bike.id === newBike.id ? newBike : bike));
       });
     },
     onError: (error: string) => Alert.alert("Error", error),

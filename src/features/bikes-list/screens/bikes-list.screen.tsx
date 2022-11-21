@@ -1,33 +1,38 @@
-import React, { useState } from "react";
-import { FlatList, View } from "react-native";
-import styled from "styled-components/native";
+import React, { useEffect, useState } from "react";
+import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
 import { useAccount } from "../../../common/hooks/useAccount";
 import { BikeCard } from "../components/BikeCard/bike-card.component";
 import { BikeFilter } from "../components/BikeFilter/bike-filter.component";
+import { BikeRentModal } from "../components/BikeRentModal/bike-rent-modal.component";
 import { NoData } from "../components/NoData/no-data.component";
 import { filterInitialState } from "../constants/filter-initial-state";
 import useBikesList from "../hooks/useBikesList";
-import { useRentBike } from "../hooks/useRentBike";
 import { Bike } from "../models/bike.model";
 import { Filter } from "../models/filter.model";
 
-const CardWrapper = styled(View)`
-  margin-bottom: 14px;
-`;
+let id: ReturnType<typeof setInterval>;
 
 export const BikesListScreen: React.FC = () => {
   const { data: bikes, isLoading, refetch: getBikes } = useBikesList();
-
   const { data: account } = useAccount();
 
-  console.log(account);
-
-  const { mutateAsync: rentBike } = useRentBike();
-
   const [filter, setFilter] = useState<Filter>(filterInitialState);
+  const [activeBike, setActiveBike] = useState<Bike | null>(null);
+  const [isVisibleRentModal, setIsVisibleRentModal] = useState(false);
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    id = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, []);
 
   const filterByColor = (array: Bike[]) =>
     array.filter((bike) =>
@@ -75,37 +80,44 @@ export const BikesListScreen: React.FC = () => {
 
   return (
     <Container>
-      <Spacer position="bottom" size="xl">
-        <BikeFilter filter={filter} setFilter={setFilter} />
-      </Spacer>
+      <BikeRentModal
+        bike={activeBike}
+        isVisible={isVisibleRentModal}
+        onClose={() => {
+          setIsVisibleRentModal(false);
+          setActiveBike(null);
+        }}
+      />
 
       {isLoading && !bikes ? (
         <Loading size="large" />
-      ) : filteredBikes && filteredBikes.length ? (
+      ) : (
         <FlatList
+          ListHeaderComponent={
+            <Spacer position="bottom" size="lg">
+              <BikeFilter filter={filter} setFilter={setFilter} />
+            </Spacer>
+          }
+          ListEmptyComponent={<NoData />}
           data={filteredBikes}
           refreshing={false}
           renderItem={({ item }) => (
-            <CardWrapper>
+            <Spacer position="bottom" size="lg">
               <BikeCard
+                now={now}
+                accountID={account?.id}
                 bike={item}
                 disabled={!account}
-                isRented={Boolean(
-                  account?.rentedBikes?.find(
-                    (rentedBike) => rentedBike.id === item.id
-                  )
-                )}
                 onRent={() => {
-                  rentBike(item.id);
+                  setActiveBike(item);
+                  setIsVisibleRentModal(true);
                 }}
               />
-            </CardWrapper>
+            </Spacer>
           )}
           keyExtractor={(bike) => bike.id.toString()}
           onRefresh={getBikes}
         />
-      ) : (
-        <NoData />
       )}
     </Container>
   );
