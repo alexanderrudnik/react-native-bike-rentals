@@ -98,7 +98,9 @@ export const BikesListScreen: React.FC = () => {
               <BikeFilter filter={filter} setFilter={setFilter} />
             </Spacer>
           }
-          ListEmptyComponent={<NoData />}
+          ListEmptyComponent={
+            <NoData additionalText="Please try to update your filter query." />
+          }
           data={filteredBikes}
           refreshing={false}
           renderItem={({ item }) => (

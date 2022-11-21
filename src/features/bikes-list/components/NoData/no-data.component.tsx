@@ -2,11 +2,15 @@ import React from "react";
 import { Text, Title } from "react-native-paper";
 import { Center } from "../../../../common/components/Center/center.component";
 
-export const NoData: React.FC = () => {
+interface Props {
+  additionalText?: string;
+}
+
+export const NoData: React.FC<Props> = ({ additionalText }) => {
   return (
     <Center>
       <Title>Oops, looks like there is no data :(</Title>
-      <Text>Please try to update your filter query.</Text>
+      {additionalText && <Text>{additionalText}</Text>}
     </Center>
   );
 };

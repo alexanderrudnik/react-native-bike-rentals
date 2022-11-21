@@ -1,6 +1,6 @@
 import { BikeRent } from "../../features/bikes-list/models/bike.model";
 
-export interface RentBikeDetails {
+export interface BikeDetails {
   userID: number;
   bikes: RentedBike[];
 }
@@ -11,7 +11,7 @@ export interface RentedBike {
   id: number;
 }
 
-export interface SetBikeRentedDetails {
+export interface SetBikeDetails {
   bikeID: number;
   data: BikeRent[];
 }

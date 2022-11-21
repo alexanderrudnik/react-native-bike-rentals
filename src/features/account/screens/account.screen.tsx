@@ -5,11 +5,13 @@ import { LoginScreen } from "../../login/screens/login.screen";
 import { DashboardScreen } from "../../dashboard/screens/dashboard.screen";
 import { useAccount } from "../../../common/hooks/useAccount";
 import { Loading } from "../../../common/components/Loading/loading.component";
+import { RentedBikesScreen } from "../../rented-bikes/screens/rented-bikes.screen";
 
 export type AccountStackParamList = {
   Signup: undefined;
   Login: undefined;
   Dashboard: undefined;
+  "Rented bikes": undefined;
 };
 
 const Stack = createNativeStackNavigator<AccountStackParamList>();
@@ -24,11 +26,14 @@ export const AccountScreen: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName={"Signup"}>
       {account ? (
-        <Stack.Screen
-          name="Dashboard"
-          component={DashboardScreen}
-          options={{ headerBackVisible: false }}
-        />
+        <>
+          <Stack.Screen
+            name="Dashboard"
+            component={DashboardScreen}
+            options={{ headerBackVisible: false }}
+          />
+          <Stack.Screen name="Rented bikes" component={RentedBikesScreen} />
+        </>
       ) : (
         <>
           <Stack.Screen
