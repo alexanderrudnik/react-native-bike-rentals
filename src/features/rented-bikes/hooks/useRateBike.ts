@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useMutation } from "react-query";
-import { queryClient } from "../../../../App";
+import { queryClient } from "../../../common/query-client/query-client";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import accountAPI from "../../../services/account/account.api";
 import bikesAPI from "../../../services/bikes/bikes.api";

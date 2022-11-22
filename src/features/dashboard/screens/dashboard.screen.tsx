@@ -4,7 +4,7 @@ import { AccountStackParamList } from "../../account/screens/account.screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { StorageKeysEnum } from "../../../common/models/storage-keys.enum";
-import { queryClient } from "../../../../App";
+import { queryClient } from "../../../common/query-client/query-client";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 import { Button } from "react-native-paper";
 import { useAccount } from "../../../common/hooks/useAccount";

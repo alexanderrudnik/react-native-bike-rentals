@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 import authAPI from "../../../services/auth/auth.api";
 import { AuthDetails } from "../../../services/auth/auth.types";
 import { StorageKeysEnum } from "../../../common/models/storage-keys.enum";
-import { queryClient } from "../../../../App";
+import { queryClient } from "../../../common/query-client/query-client";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
 
 const login = async (details: AuthDetails) => {

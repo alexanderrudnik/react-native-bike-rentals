@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useMutation } from "react-query";
-import { queryClient } from "../../../../App";
 import { QueryKeysEnum } from "../../../common/models/query-keys.enum";
+import { queryClient } from "../../../common/query-client/query-client";
 import accountAPI from "../../../services/account/account.api";
 import bikesAPI from "../../../services/bikes/bikes.api";
 import { RentedBike } from "../../../services/bikes/bikes.types";
@@ -71,12 +71,12 @@ const rentBike = async ({
 
 export const useRentBike = () => {
   return useMutation(rentBike, {
-    onSuccess: ({ newAccount, newBike }) => {
-      queryClient.setQueryData(QueryKeysEnum.ACCOUNT, () => {
+    onSuccess: async ({ newAccount, newBike }) => {
+      await queryClient.setQueryData(QueryKeysEnum.ACCOUNT, () => {
         return newAccount;
       });
 
-      queryClient.setQueryData(QueryKeysEnum.BIKES, (old: Bike[]) => {
+      await queryClient.setQueryData(QueryKeysEnum.BIKES, (old: Bike[]) => {
         return old.map((bike) => (bike.id === newBike.id ? newBike : bike));
       });
     },
