@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import React, { useEffect } from "react";
+import { Alert, View } from "react-native";
 import { Title } from "react-native-paper";
 import { FilterProps } from "../../models/filter.model";
 import * as S from "./bike-filter-rating.styles";
@@ -7,12 +7,11 @@ import * as S from "./bike-filter-rating.styles";
 interface Props extends FilterProps {}
 
 export const BikeFilterRating: React.FC<Props> = ({ filter, setFilter }) => {
-  const [visible, setVisible] = useState(false);
-
   useEffect(() => {
     if (filter.rating[0] && filter.rating[1]) {
       if (parseInt(filter.rating[0], 10) > parseInt(filter.rating[1], 10)) {
-        setVisible(true);
+        Alert.alert("Error", "Rating 'from' can't be higher than rating 'to'!");
+        setFilter((prev) => ({ ...prev, rating: ["", ""] }));
       }
     }
   }, [filter.rating, setFilter]);
@@ -46,19 +45,6 @@ export const BikeFilterRating: React.FC<Props> = ({ filter, setFilter }) => {
           }
         />
       </S.Row>
-
-      <S.Snack
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        action={{
-          label: "Dismiss",
-          onPress: () => {
-            setVisible(false);
-          },
-        }}
-      >
-        Rating "from" can't be higher than rating "to"!
-      </S.Snack>
     </View>
   );
 };

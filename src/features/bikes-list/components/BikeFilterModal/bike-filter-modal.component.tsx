@@ -5,7 +5,6 @@ import { FilterProps } from "../../models/filter.model";
 import { BikeFilterColor } from "../BikeFilterColor/bike-filter-color.component";
 import { BikeFilterModel } from "../BikeFilterModel/bike-filter-model.component";
 import { BikeFilterLocation } from "../BikeFilterLocation/bike-filter-location.component";
-import { ScrollView } from "react-native";
 import { BikeFilterRating } from "../BikeFilterRating/bike-filter-rating.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { filterInitialState } from "../../constants/filter-initial-state";
