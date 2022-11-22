@@ -10,7 +10,7 @@ const fetchAccount = async () => {
     return response.data;
   } catch (e) {
     const error = e as AxiosError;
-    throw error.response?.data || "Something went wrong";
+    throw error.response?.data || "There was an error retrieving your account";
   }
 };
 

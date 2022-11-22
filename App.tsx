@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { LogBox } from "react-native";
 
 import { BikesListScreen } from "./src/features/bikes-list/screens/bikes-list.screen";
 import { AccountScreen } from "./src/features/account/screens/account.screen";
 import { SettingsScreen } from "./src/features/settings/screens/settings.screen";
 
-import { QueryClient, QueryClientProvider } from "react-query";
+LogBox.ignoreAllLogs(); // ignore warnings
 
 type RootTabParamList = {
   Bikes: undefined;
@@ -44,6 +47,15 @@ const getScreenOptions = ({
 });
 
 export default function App() {
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await AsyncStorage.getItem("accessToken");
+      console.log(token, "token");
+    };
+
+    getToken();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <PaperProvider>

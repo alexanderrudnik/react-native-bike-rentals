@@ -22,9 +22,11 @@ axiosInstance.interceptors.request.use(async (config) => {
   };
 });
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => response,
-  async (error) => {
+  async (e) => {
+    const error = JSON.parse(JSON.stringify(e));
+
     if (error.status === 401) {
       await AsyncStorage.removeItem(StorageKeysEnum.ACCESS_TOKEN);
       await queryClient.setQueryData(QueryKeysEnum.ACCOUNT, undefined);
@@ -35,6 +37,6 @@ axios.interceptors.response.use(
       );
     }
 
-    return Promise.reject(error);
+    return Promise.reject(e);
   }
 );
