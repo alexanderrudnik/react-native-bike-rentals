@@ -30,11 +30,6 @@ axiosInstance.interceptors.response.use(
     if (error.status === 401) {
       await AsyncStorage.removeItem(StorageKeysEnum.ACCESS_TOKEN);
       await queryClient.setQueryData(QueryKeysEnum.ACCOUNT, undefined);
-
-      Alert.alert(
-        "Error",
-        "Your token has expired, please log in again to continue"
-      );
     }
 
     return Promise.reject(e);
