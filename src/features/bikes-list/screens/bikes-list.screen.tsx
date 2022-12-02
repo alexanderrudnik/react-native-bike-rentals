@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
 import { useAccount } from "../../../common/hooks/useAccount";
-import { dateService } from "../../../services/date/date.service";
+import { useNow } from "../../../common/hooks/useNow";
 import { BikeCard } from "../components/BikeCard/bike-card.component";
 import { BikeFilter } from "../components/BikeFilter/bike-filter.component";
 import { BikeRentModal } from "../components/BikeRentModal/bike-rent-modal.component";
@@ -14,8 +14,6 @@ import useBikesList from "../hooks/useBikesList";
 import { Bike } from "../models/bike.model";
 import { Filter } from "../models/filter.model";
 
-let id: ReturnType<typeof setInterval>;
-
 export const BikesListScreen: React.FC = () => {
   const { data: bikes, isLoading, refetch: getBikes } = useBikesList();
   const { data: account } = useAccount();
@@ -23,17 +21,8 @@ export const BikesListScreen: React.FC = () => {
   const [filter, setFilter] = useState<Filter>(filterInitialState);
   const [activeBike, setActiveBike] = useState<Bike | null>(null);
   const [isVisibleRentModal, setIsVisibleRentModal] = useState(false);
-  const [now, setNow] = useState(dateService.getNow());
 
-  useEffect(() => {
-    id = setInterval(() => {
-      setNow(dateService.getNow());
-    }, 1000);
-
-    return () => {
-      clearInterval(id);
-    };
-  }, []);
+  const { now } = useNow();
 
   const filterByColor = (array: Bike[]) =>
     array.filter((bike) =>
