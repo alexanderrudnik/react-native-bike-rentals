@@ -1,5 +1,5 @@
 export enum QueryKeysEnum {
   BIKES = "bikes",
-  ACCOUNT = "account",
-  ACCOUNTS = "accounts",
+  USER = "user",
+  USERS = "users",
 }

@@ -3,8 +3,8 @@ import { View } from "react-native";
 import { Button } from "react-native-paper";
 import { Modal } from "../../../../common/components/Modal/modal.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
+import { Bike } from "../../../../services/bikes/bikes.types";
 import { useRentBike } from "../../hooks/useRentBike";
-import { Bike } from "../../models/bike.model";
 
 const options = [
   {
@@ -51,7 +51,7 @@ export const BikeRentModal: React.FC<Props> = ({
               <Button
                 mode={i === array.length - 1 ? "contained" : "outlined"}
                 onPress={() => {
-                  rentBike({ bike, duration: option.value });
+                  rentBike({ bikeID: bike.id, duration: option.value });
                   onClose();
                 }}
               >

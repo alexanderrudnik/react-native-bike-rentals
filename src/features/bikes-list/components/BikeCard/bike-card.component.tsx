@@ -4,11 +4,11 @@ import { Title, Card, Button } from "react-native-paper";
 import { Rating } from "../../../../common/components/Rating/rating.component";
 import { Card as BaseCard } from "../../../../common/components/Card/card.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
-import { Bike } from "../../models/bike.model";
+import { Bike } from "../../../../services/bikes/bikes.types";
 
 interface Props {
   now: number;
-  accountID: number | undefined;
+  userID: number | undefined;
   bike: Bike;
   disabled: boolean;
   onRent: () => void;
@@ -16,24 +16,24 @@ interface Props {
 
 export const BikeCard: React.FC<Props> = ({
   now,
-  accountID,
+  userID,
   bike,
   disabled,
   onRent,
 }) => {
-  const isBikeAvailable = bike.rented
-    ? bike.rented.every(
+  const isBikeAvailable = bike.history
+    ? bike.history.every(
         (rent) => now < rent.dateFrom || (rent.dateTo && now >= rent.dateTo)
       )
     : true;
 
-  const isRentedByMe = bike.rented
-    ? bike.rented.some(
+  const isRentedByMe = bike.history
+    ? bike.history.some(
         (rent) =>
           now >= rent.dateFrom &&
           (rent.dateTo ? now < rent.dateTo : true) &&
-          accountID &&
-          rent.accountID === accountID
+          userID &&
+          rent.userID === userID
       )
     : false;
 

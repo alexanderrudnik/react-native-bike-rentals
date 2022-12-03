@@ -4,22 +4,22 @@ import { Text } from "react-native-paper";
 import { Table, Row, Rows } from "react-native-table-component";
 import { Card } from "../../../../common/components/Card/card.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
-import { Account } from "../../../../services/account/account.types";
+import { Bike } from "../../../../services/bikes/bikes.types";
 import { dateService } from "../../../../services/date/date.service";
-import { Bike } from "../../../bikes-list/models/bike.model";
+import { User } from "../../../../services/user/user.types";
 import * as S from "./users-bikes-card.styles";
 
 interface Props {
-  account: Account;
+  user: User;
   bikes: Bike[];
 }
 
-export const UsersBikesCard: React.FC<Props> = ({ account, bikes }) => {
+export const UsersBikesCard: React.FC<Props> = ({ user, bikes }) => {
   const header = ["Model", "Date from", "Date to"];
   const data =
-    account?.rentedBikes &&
-    account.rentedBikes.map((rentedBike) => [
-      bikes.find((bike) => bike.id === rentedBike.id)?.model,
+    user?.history &&
+    user.history.map((rentedBike) => [
+      bikes.find((bike) => bike.id === rentedBike.bikeID)?.model,
       dateService.format(rentedBike.dateFrom),
       rentedBike.dateTo ? dateService.format(rentedBike.dateTo) : "Unlimited",
     ]);
@@ -32,7 +32,7 @@ export const UsersBikesCard: React.FC<Props> = ({ account, bikes }) => {
             <Text>Email:</Text>
           </Spacer>
 
-          <Text>{account.email}</Text>
+          <Text>{user.email}</Text>
         </S.Row>
       </Spacer>
 

@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
-import { useAccount } from "../../../common/hooks/useAccount";
+import { useMe } from "../../../common/hooks/useMe";
 import { useNow } from "../../../common/hooks/useNow";
-import { RentedBike } from "../../../services/bikes/bikes.types";
+import { UserRent } from "../../../services/user/user.types";
 import { NoData } from "../../bikes-list/components/NoData/no-data.component";
-import useBikesList from "../../bikes-list/hooks/useBikesList";
+import { useBikes } from "../../bikes-list/hooks/useBikes";
 import { RateBikeModal } from "../components/RateBikeModal/rate-bike-modal.component";
 import { RentedBikeCard } from "../components/RentedBikeCard/rented-bike-card.component";
+import { useCancelBike } from "../hooks/useCancelBike";
 
 export const RentedBikesScreen: React.FC = () => {
-  const { data: bikes } = useBikesList();
-  const { data: account } = useAccount();
+  const { data: bikes } = useBikes();
+  const { data: user } = useMe();
+  const { mutate: cancelBike } = useCancelBike();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [activeBike, setActiveBike] = useState<RentedBike | null>(null);
+  const [activeBike, setActiveBike] = useState<UserRent | null>(null);
 
   const { now } = useNow();
 
@@ -26,17 +28,27 @@ export const RentedBikesScreen: React.FC = () => {
       <FlatList
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={NoData}
-        data={account?.rentedBikes || []}
+        data={user?.history || []}
         renderItem={({ item }) => {
-          const currentBike = bikesList.find((bike) => bike.id === item.id);
+          const currentBike = bikesList.find((bike) => bike.id === item.bikeID);
+
+          const isCancellable = item.dateTo ? now < item.dateTo : true;
+
+          const isRateable = Boolean(
+            !currentBike?.ratings.find(
+              (bikeRating) => bikeRating.userID === user?.id
+            ) && !isCancellable
+          );
 
           return currentBike ? (
             <Spacer position="bottom" size="lg">
               <RentedBikeCard
                 now={now}
                 bike={currentBike}
-                rated={item?.rated}
                 rentDetails={item}
+                isCancellable={isCancellable}
+                onCancel={() => cancelBike({ rideID: item.id })}
+                isRateable={isRateable}
                 onRate={() => {
                   setIsModalVisible(true);
                   setActiveBike(item);

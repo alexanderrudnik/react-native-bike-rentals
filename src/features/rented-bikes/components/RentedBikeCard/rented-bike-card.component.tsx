@@ -2,31 +2,29 @@ import React from "react";
 import { Button, Text } from "react-native-paper";
 import { Card } from "../../../../common/components/Card/card.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
-import { RentedBike } from "../../../../services/bikes/bikes.types";
+import { Bike } from "../../../../services/bikes/bikes.types";
 import { dateService } from "../../../../services/date/date.service";
-import { Bike } from "../../../bikes-list/models/bike.model";
-import { useCancelBike } from "../../hooks/useCancelBike";
+import { UserRent } from "../../../../services/user/user.types";
 import * as S from "./rented-bike-card.styles";
 
 interface Props {
   now: number;
   bike: Bike;
-  rentDetails: RentedBike;
-  rated?: number;
+  rentDetails: UserRent;
+  isCancellable: boolean;
+  isRateable: boolean;
+  onCancel: () => void;
   onRate: () => void;
 }
 
 export const RentedBikeCard: React.FC<Props> = ({
-  now,
   bike,
   rentDetails,
-  rated,
   onRate,
+  isCancellable,
+  isRateable,
+  onCancel,
 }) => {
-  const isCancellable = rentDetails.dateTo ? now < rentDetails.dateTo : true;
-
-  const { mutateAsync: cancelBike } = useCancelBike();
-
   return (
     <Card>
       <Spacer position="bottom" size="lg">
@@ -61,15 +59,12 @@ export const RentedBikeCard: React.FC<Props> = ({
       </Spacer>
 
       {isCancellable && (
-        <Button
-          mode="outlined"
-          onPress={() => cancelBike({ bike, dateFrom: rentDetails.dateFrom })}
-        >
+        <Button mode="outlined" onPress={onCancel}>
           Cancel
         </Button>
       )}
 
-      {!rated && !isCancellable && (
+      {isRateable && (
         <Button mode="outlined" onPress={onRate}>
           Rate this bike!
         </Button>

@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { Button } from "react-native-paper";
-import useBikesList from "../../hooks/useBikesList";
 import { FilterProps } from "../../models/filter.model";
 import { BikeFilterColor } from "../BikeFilterColor/bike-filter-color.component";
 import { BikeFilterModel } from "../BikeFilterModel/bike-filter-model.component";
@@ -9,6 +8,7 @@ import { BikeFilterRating } from "../BikeFilterRating/bike-filter-rating.compone
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
 import { filterInitialState } from "../../constants/filter-initial-state";
 import { Modal } from "../../../../common/components/Modal/modal.component";
+import { useBikes } from "../../hooks/useBikes";
 
 interface Props extends FilterProps {
   visible: boolean;
@@ -21,7 +21,7 @@ export const BikeFilterModal: React.FC<Props> = ({
   filter,
   setFilter,
 }) => {
-  const { data: bikes } = useBikesList();
+  const { data: bikes } = useBikes();
 
   const { colors, models } = useMemo(() => {
     if (bikes) {

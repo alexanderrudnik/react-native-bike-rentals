@@ -3,20 +3,20 @@ import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
-import { useAccount } from "../../../common/hooks/useAccount";
+import { useMe } from "../../../common/hooks/useMe";
 import { useNow } from "../../../common/hooks/useNow";
+import { Bike } from "../../../services/bikes/bikes.types";
 import { BikeCard } from "../components/BikeCard/bike-card.component";
 import { BikeFilter } from "../components/BikeFilter/bike-filter.component";
 import { BikeRentModal } from "../components/BikeRentModal/bike-rent-modal.component";
 import { NoData } from "../components/NoData/no-data.component";
 import { filterInitialState } from "../constants/filter-initial-state";
-import useBikesList from "../hooks/useBikesList";
-import { Bike } from "../models/bike.model";
+import { useBikes } from "../hooks/useBikes";
 import { Filter } from "../models/filter.model";
 
 export const BikesListScreen: React.FC = () => {
-  const { data: bikes, isLoading, refetch: getBikes } = useBikesList();
-  const { data: account } = useAccount();
+  const { data: bikes, isLoading, refetch: getBikes } = useBikes();
+  const { data: user } = useMe();
 
   const [filter, setFilter] = useState<Filter>(filterInitialState);
   const [activeBike, setActiveBike] = useState<Bike | null>(null);
@@ -97,9 +97,9 @@ export const BikesListScreen: React.FC = () => {
             <Spacer position="bottom" size="lg">
               <BikeCard
                 now={now}
-                accountID={account?.id}
+                userID={user?.id}
                 bike={item}
-                disabled={!account}
+                disabled={!user}
                 onRent={() => {
                   setActiveBike(item);
                   setIsVisibleRentModal(true);

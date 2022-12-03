@@ -4,10 +4,10 @@ import { Container } from "../../../common/components/Container/container.compon
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
 import { UserCard } from "../components/UserCard/user-card.component";
-import { useAccounts } from "../hooks/useAccounts";
+import { useAllUsers } from "../hooks/useAllUsers";
 
 export const AllUsersScreen: React.FC = () => {
-  const { data: accounts, isLoading } = useAccounts();
+  const { data: users, isLoading } = useAllUsers();
 
   return (
     <Container>
@@ -16,10 +16,10 @@ export const AllUsersScreen: React.FC = () => {
       ) : (
         <FlatList
           keyExtractor={(item) => item.id.toString()}
-          data={accounts}
+          data={users}
           renderItem={({ item }) => (
             <Spacer position="bottom" size="lg">
-              <UserCard account={item} />
+              <UserCard user={item} />
             </Spacer>
           )}
         />

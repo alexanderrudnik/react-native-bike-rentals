@@ -5,11 +5,11 @@ import { Center } from "../../../../common/components/Center/center.component";
 import { Modal } from "../../../../common/components/Modal/modal.component";
 import { Rate } from "../../../../common/components/Rate/rate.component";
 import { Spacer } from "../../../../common/components/Spacer/spacer.component";
-import { RentedBike } from "../../../../services/bikes/bikes.types";
+import { UserRent } from "../../../../services/user/user.types";
 import { useRateBike } from "../../hooks/useRateBike";
 
 interface Props {
-  rentedBike: RentedBike | null;
+  rentedBike: UserRent | null;
   isVisible: boolean;
   onClose: () => void;
 }
@@ -46,7 +46,7 @@ export const RateBikeModal: React.FC<Props> = ({
           mode="contained"
           onPress={() => {
             if (rating && rentedBike?.dateFrom) {
-              rateBike({ rating, dateFrom: rentedBike?.dateFrom });
+              rateBike({ rating, bikeID: rentedBike.bikeID });
               setRating(null);
               onClose();
             }

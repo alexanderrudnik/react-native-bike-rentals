@@ -1,9 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { Alert } from "react-native";
-import { QueryKeysEnum } from "../../common/models/query-keys.enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageKeysEnum } from "../../common/models/storage-keys.enum";
 import { queryClient } from "../../common/query-client/query-client";
+import { QueryKeysEnum } from "../../common/models/query-keys.enum";
 
 const BASE_URL = "http://192.168.0.102:4444";
 
@@ -29,9 +28,14 @@ axiosInstance.interceptors.response.use(
 
     if (error.status === 401) {
       await AsyncStorage.removeItem(StorageKeysEnum.ACCESS_TOKEN);
-      await queryClient.setQueryData(QueryKeysEnum.ACCOUNT, undefined);
+      await queryClient.setQueryData(QueryKeysEnum.USER, undefined);
     }
 
-    return Promise.reject(e);
+    const responseError = {
+      ...error,
+      message: e.response.data,
+    };
+
+    return Promise.reject(responseError);
   }
 );

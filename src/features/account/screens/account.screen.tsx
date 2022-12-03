@@ -3,12 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SignupScreen } from "../../signup/screens/signup.screen";
 import { LoginScreen } from "../../login/screens/login.screen";
 import { DashboardScreen } from "../../dashboard/screens/dashboard.screen";
-import { useAccount } from "../../../common/hooks/useAccount";
 import { Loading } from "../../../common/components/Loading/loading.component";
 import { RentedBikesScreen } from "../../rented-bikes/screens/rented-bikes.screen";
 import { AllUsersScreen } from "../../all-users/screens/all-users.screen";
 import { BikesUsersScreen } from "../../bikes-users/screens/bikes-users.screen";
 import { UsersBikesScreen } from "../../users-bikes/screens/users-bikes.screen";
+import { useMe } from "../../../common/hooks/useMe";
 
 export type AccountStackParamList = {
   Signup: undefined;
@@ -23,7 +23,7 @@ export type AccountStackParamList = {
 const Stack = createNativeStackNavigator<AccountStackParamList>();
 
 export const AccountScreen: React.FC = () => {
-  const { data: account, isLoading } = useAccount();
+  const { data: user, isLoading } = useMe();
 
   if (isLoading) {
     return <Loading size="large" />;
@@ -31,7 +31,7 @@ export const AccountScreen: React.FC = () => {
 
   return (
     <Stack.Navigator initialRouteName={"Signup"}>
-      {account ? (
+      {user ? (
         <>
           <Stack.Screen
             name="Dashboard"

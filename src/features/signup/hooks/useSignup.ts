@@ -6,17 +6,16 @@ import { AuthDetails } from "../../../services/auth/auth.types";
 
 const signup = async (details: AuthDetails) => {
   try {
-    const response = await authAPI.signup(details);
+    const { data } = await authAPI.signup(details);
 
-    return response.data;
-  } catch (e) {
-    const error = e as AxiosError;
-    throw error.response?.data || "Something went wrong";
+    return data;
+  } catch (error) {
+    throw (error as AxiosError).message;
   }
 };
 
 export const useSignup = () => {
   return useMutation(signup, {
-    onError: (error: string) => Alert.alert("Error", error),
+    onError: (error: string) => Alert.alert(error || "Failed to sign up"),
   });
 };

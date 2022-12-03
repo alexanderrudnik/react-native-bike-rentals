@@ -28,7 +28,7 @@ const LoginButton = styled(Button)`
 `;
 
 const SignupButton = styled(Button)`
-  ${(props) => props.disabled && "background-color: 		#909090"};
+  ${(props) => props.disabled && "background-color: #909090"};
 `;
 
 type Props = NativeStackScreenProps<AccountStackParamList, "Login">;
