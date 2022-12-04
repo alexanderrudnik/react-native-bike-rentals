@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Spacer } from "../../../common/components/Spacer/spacer.component";
@@ -21,14 +21,18 @@ export const RentedBikesScreen: React.FC = () => {
 
   const { now } = useNow();
 
-  const bikesList = bikes || [];
+  const bikesList = useMemo(() => bikes || [], [bikes]);
+  const history = useMemo(
+    () => [...(user?.history || [])].reverse(),
+    [user?.history]
+  );
 
   return (
     <Container>
       <FlatList
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={NoData}
-        data={user?.history || []}
+        data={history || []}
         renderItem={({ item }) => {
           const currentBike = bikesList.find((bike) => bike.id === item.bikeID);
 
