@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FlatList } from "react-native";
 import { Container } from "../../../common/components/Container/container.component";
 import { Loading } from "../../../common/components/Loading/loading.component";
@@ -13,6 +13,7 @@ import { NoData } from "../components/NoData/no-data.component";
 import { filterInitialState } from "../constants/filter-initial-state";
 import { useBikes } from "../hooks/useBikes";
 import { Filter } from "../models/filter.model";
+import { getFilteredBikes } from "../utils/FilterService";
 
 export const BikesListScreen: React.FC = () => {
   const { data: bikes, isLoading, refetch: getBikes } = useBikes();
@@ -24,49 +25,12 @@ export const BikesListScreen: React.FC = () => {
 
   const { now } = useNow();
 
-  const filterByColor = (array: Bike[]) =>
-    array.filter((bike) =>
-      filter.color.some((color) =>
-        bike.color.toLowerCase().includes(color.toLowerCase())
-      )
-    );
+  // Filters can be debounced if needed
 
-  const filterByModel = (array: Bike[]) =>
-    array.filter((bike) =>
-      filter.model.some((model) =>
-        bike.model.toLowerCase().includes(model.toLowerCase())
-      )
-    );
-
-  const filterByLocation = (array: Bike[]) =>
-    array.filter((bike) =>
-      bike.location.toLowerCase().includes(filter.location.toLowerCase())
-    );
-
-  const filterByRating = (array: Bike[]) =>
-    array.filter(
-      (bike) =>
-        parseInt(filter.rating[0], 10) <= bike.rating &&
-        parseInt(filter.rating[1], 10) >= bike.rating
-    );
-
-  const getFilteredBikes = () => {
-    if (bikes) {
-      let result: Bike[] = bikes;
-
-      result = filter.color.length ? filterByColor(result) : result;
-      result = filter.model.length ? filterByModel(result) : result;
-      result = filter.location ? filterByLocation(result) : result;
-      result =
-        filter.rating[0] && filter.rating[1] ? filterByRating(result) : result;
-
-      return result;
-    }
-
-    return [];
-  };
-
-  const filteredBikes = getFilteredBikes();
+  const filteredBikes = useMemo(
+    () => (bikes ? getFilteredBikes(bikes, filter) : null),
+    [bikes, filter]
+  );
 
   return (
     <Container>
@@ -79,7 +43,7 @@ export const BikesListScreen: React.FC = () => {
         }}
       />
 
-      {isLoading && !bikes ? (
+      {isLoading ? (
         <Loading size="large" />
       ) : (
         <FlatList
