@@ -10,17 +10,10 @@ interface Props {
   now: number;
   userID: number | undefined;
   bike: Bike;
-  disabled: boolean;
   onRent: () => void;
 }
 
-export const BikeCard: React.FC<Props> = ({
-  now,
-  userID,
-  bike,
-  disabled,
-  onRent,
-}) => {
+export const BikeCard: React.FC<Props> = ({ now, userID, bike, onRent }) => {
   const isBikeAvailable = bike.history
     ? bike.history.every(
         (rent) => now < rent.dateFrom || (rent.dateTo && now >= rent.dateTo)
@@ -37,7 +30,7 @@ export const BikeCard: React.FC<Props> = ({
       )
     : false;
 
-  const isDisabled = !isBikeAvailable || disabled || isRentedByMe;
+  const isDisabled = !isBikeAvailable || !userID || isRentedByMe;
 
   return (
     <BaseCard>
@@ -58,7 +51,7 @@ export const BikeCard: React.FC<Props> = ({
 
       <Spacer position="top" size="lg">
         <Button mode="contained" disabled={isDisabled} onPress={onRent}>
-          {disabled
+          {!userID
             ? "Please log in to rent it"
             : isRentedByMe
             ? "Rented"

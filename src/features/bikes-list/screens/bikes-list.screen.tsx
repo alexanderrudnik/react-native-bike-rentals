@@ -58,12 +58,11 @@ export const BikesListScreen: React.FC = () => {
           data={filteredBikes}
           refreshing={false}
           renderItem={({ item }) => (
-            <Spacer position="bottom" size="lg">
+            <Spacer key={item.id} position="bottom" size="lg">
               <BikeCard
                 now={now}
                 userID={user?.id}
                 bike={item}
-                disabled={!user}
                 onRent={() => {
                   setActiveBike(item);
                   setIsVisibleRentModal(true);
