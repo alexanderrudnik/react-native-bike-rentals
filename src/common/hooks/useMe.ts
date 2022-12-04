@@ -16,8 +16,8 @@ const getMe = async () => {
 
 export const useMe = () => {
   return useQuery(QueryKeysEnum.USER, getMe, {
-    onError: () => {
-      queryClient.setQueryData(QueryKeysEnum.USER, () => null);
+    onError: async () => {
+      await queryClient.setQueryData(QueryKeysEnum.USER, () => null);
     },
   });
 };

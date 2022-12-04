@@ -10,6 +10,7 @@ import {
   RentBikeDetails,
   RentHistoryItem,
 } from "../../../services/bikes/bikes.types";
+import { User } from "../../../services/user/user.types";
 
 const rentBike = async (details: RentBikeDetails) => {
   try {
@@ -25,25 +26,35 @@ export const useRentBike = () => {
   const { data: user } = useMe();
 
   return useMutation(rentBike, {
-    onSuccess: (data, { bikeID }) => {
-      queryClient.setQueryData(QueryKeysEnum.USER, (oldUser: any) => {
-        return {
-          ...oldUser,
-          history: oldUser?.history?.length
-            ? [...oldUser.history, data]
-            : [data],
-        };
+    onSuccess: async (data, { bikeID }) => {
+      const newUser = {
+        ...user,
+        history: user?.history?.length ? [...user.history, data] : [data],
+      };
+
+      await queryClient.setQueryData(QueryKeysEnum.USER, () => {
+        return newUser;
       });
 
-      queryClient.setQueryData(QueryKeysEnum.BIKES, (bikes: any) => {
+      await queryClient.setQueryData(QueryKeysEnum.USERS, (users: any) => {
+        return users?.length
+          ? users.map((dbUser: User) =>
+              dbUser.id === user?.id ? newUser : dbUser
+            )
+          : users;
+      });
+
+      await queryClient.setQueryData(QueryKeysEnum.BIKES, (bikes: any) => {
         const newBikeRent: RentHistoryItem = {
           id: data.id,
           userID: user!.id,
           dateFrom: data.dateFrom,
         };
+
         if (data?.dateTo) {
           newBikeRent.dateTo = data.dateTo;
         }
+
         return bikes.map((bike: Bike) =>
           bike.id === bikeID
             ? {

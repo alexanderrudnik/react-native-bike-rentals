@@ -18,8 +18,8 @@ const deleteUser = async (id: number) => {
 
 export const useDeleteUser = () => {
   return useMutation(deleteUser, {
-    onSuccess: (_, id) => {
-      queryClient.setQueryData(QueryKeysEnum.USERS, (users: any) => {
+    onSuccess: async (_, id) => {
+      await queryClient.setQueryData(QueryKeysEnum.USERS, (users: any) => {
         return users.filter((user: User) => user.id !== id);
       });
     },
