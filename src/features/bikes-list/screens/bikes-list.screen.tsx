@@ -13,7 +13,7 @@ import { NoData } from "../components/NoData/no-data.component";
 import { filterInitialState } from "../constants/filter-initial-state";
 import { useBikes } from "../hooks/useBikes";
 import { Filter } from "../models/filter.model";
-import { getFilteredBikes } from "../utils/FilterService";
+import { getFilteredBikes } from "../utils/filter.service";
 
 export const BikesListScreen: React.FC = () => {
   const { data: bikes, isLoading, refetch: getBikes } = useBikes();
